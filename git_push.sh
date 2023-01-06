@@ -15,8 +15,9 @@ if [[ $BRANCH == "develop"  || $BRANCH == "main" ]]; then
 	Pull Request can't be created!\n" $i ${directory} ${BRANCH}
 else
 	WORKSPACE_PUSH_STATUS=$(git push origin $BRANCH 2>&1)
-	WORKSPACE_PR_LINK="$(echo $WORKSPACE_PUSH_STATUS | cut -d' ' -f9)"
-	printf "* App       :  workspace \n"
+	echo "WORKSPACE_PUSH_STATUS : $WORKSPACE_PUSH_STATUS"
+	WORKSPACE_PR_LINK="$(echo $WORKSPACE_PUSH_STATUS | cut -d' ' -f14)"
+	printf "* App       :  workspace ${WORKSPACE_PR_LINK} \n"
 	printf "* Pull Request :  ${WORKSPACE_PR_LINK} \n"
 	python -mwebbrowser ${WORKSPACE_PR_LINK}
 fi	
@@ -45,7 +46,7 @@ for directory in *; do
 				git branch -D ${BRANCH}
 			else
 				printf "Status - ${RED} NOT STAGGED ${NC} ${directory} \n"
-				PR_LINK="$(echo $PUSH_STATUS | cut -d' ' -f9)"
+				PR_LINK="$(echo $PUSH_STATUS | cut -d' ' -f14)"
 				
                 counter=$(( counter + 1 ))
 
